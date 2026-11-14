@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập JQuery + Regex</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <h2>BÀI TẬP CƠ BẢN JQUERY + REGEX</h2>
+
+    <h3>Bài 1: Chỉ gồm chữ số</h3>
+    <input type="text" id="txt1" placeholder="Nhập chuỗi">
+    <button id="btn1">Kiểm tra</button>
+    <p id="result1"></p>
+
+
+    <h3>Bài 2: Mã sinh viên</h3>
+    <input type="text" id="txt2" placeholder="Nhập mã sinh viên">
+    <button id="btn2">Kiểm tra</button>
+    <p id="result2"></p>
+
+
+    <h3>Bài 3: Tên đăng nhập</h3>
+    <input type="text" id="txt3" placeholder="Nhập tên đăng nhập">
+    <button id="btn3">Kiểm tra</button>
+    <p id="result3"></p>
+
+
+    <h3>Bài 4: Số điện thoại</h3>
+    <input type="text" id="txt4" placeholder="Nhập số điện thoại">
+    <button id="btn4">Kiểm tra</button>
+    <p id="result4"></p>
+
+    <h3>Bài 5: Email đơn giản</h3>
+    <input type="text" id="txt5" placeholder="Nhập email">
+    <button id="btn5">Kiểm tra</button>
+    <p id="result5"></p>
+
+
+    <h3>Bài 6: Mã lớp</h3>
+    <input type="text" id="txt6" placeholder="Nhập mã lớp">
+    <button id="btn6">Kiểm tra</button>
+    <p id="result6"></p>
+
+
+    <h3>Bài 7: Ngày dd/mm/yyyy</h3>
+    <input type="text" id="txt7" placeholder="Nhập ngày">
+    <button id="btn7">Kiểm tra</button>
+    <p id="result7"></p>
+
+    <script>
+        $("#btn1").on("click", function () {
+            var pattern = /^\d+$/;
+            var str = $("#txt1").val();
+
+            $("#result1").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn2").on("click", function () {
+            var pattern = /^\d{10}$/;
+            var str = $("#txt2").val();
+
+            $("#result2").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn3").on("click", function () {
+            var pattern = /^[a-z0-9_]{5,15}$/;
+            var str = $("#txt3").val();
+
+            $("#result3").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn4").on("click", function () {
+            var pattern = /^0\d{9}$/;
+            var str = $("#txt4").val();
+
+            $("#result4").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn5").on("click", function () {
+            var pattern = /^\S+@\S+\.\S+$/;
+            var str = $("#txt5").val();
+
+            $("#result5").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn6").on("click", function () {
+            var pattern = /^[A-Z]{2}\d{3}$/;
+            var str = $("#txt6").val();
+
+            $("#result6").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+
+
+        $("#btn7").on("click", function () {
+            var pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+            var str = $("#txt7").val();
+
+            $("#result7").text(pattern.test(str) ? "ĐÚNG pattern" : "SAI pattern");
+        });
+    </script>
+</body>
+
+</html>
