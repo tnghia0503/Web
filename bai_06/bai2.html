@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sách</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <h2>Danh sách sách</h2>
+
+    <button id="btn-add">Thêm sách ngẫu nhiên</button>
+
+    <div id="book-list">
+        <div class="book">
+            <h3>Đắc Nhân Tâm</h3>
+            <p>Giá: 120.000đ</p>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            const books = [
+                { title: "Nhà Giả Kim", price: 89000 },
+                { title: "Tuổi Trẻ Đáng Giá Bao Nhiêu", price: 75000 },
+                { title: "Tư Duy Nhanh và Chậm", price: 150000 },
+                { title: "Dế Mèn Phiêu Lưu Ký", price: 60000 }
+            ];
+
+            $("#btn-add").click(function () {
+                const index = Math.floor(Math.random() * books.length);
+                const book = books[index];
+
+                $("#book-list").append(`
+                    <div class="book">
+                        <h3>${book.title}</h3>
+                        <p>Giá: ${book.price.toLocaleString("vi-VN")}đ</p>
+                    </div>
+                `);
+            });
+        });
+    </script>
+</body>
+
+</html>

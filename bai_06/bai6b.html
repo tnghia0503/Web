@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore Online</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <h1>Bookstore Online</h1>
+
+    <h3>Giỏ hàng</h3>
+    <p>Số sách: <span id="cart-count">0</span></p>
+    <p>Tổng tiền: <span id="cart-total">0đ</span></p>
+
+    <hr>
+
+    <h2>Danh sách sách</h2>
+    <input type="text" id="search-box" placeholder="Tìm tên sách">
+
+    <div id="book-list"></div>
+
+    <hr>
+
+    <h2>Thông tin đặt hàng</h2>
+    <form id="checkout-form">
+        <input type="text" name="fullname" placeholder="Họ tên">
+        <br><br>
+
+        <input type="email" name="email" placeholder="Email">
+        <br><br>
+
+        <input type="tel" name="phone" placeholder="Số điện thoại">
+        <br><br>
+
+        <button type="submit">Đặt hàng</button>
+    </form>
+
+    <div id="form-errors"></div>
+
+    <script>
+        $(function () {
+            const books = [
+                { id: 1, title: "Đắc Nhân Tâm", price: 120000 },
+                { id: 2, title: "Nhà Giả Kim", price: 89000 },
+                { id: 3, title: "Tư Duy Nhanh và Chậm", price: 150000 }
+            ];
+
+            let cart = [];
+
+            function renderBookList() {
+                $("#book-list").empty();
+
+                books.forEach(function (book) {
+                    $("#book-list").append(`
+                        <div class="book" data-id="${book.id}">
+                            <h3>${book.title}</h3>
+                            <p>Giá: ${book.price.toLocaleString("vi-VN")}đ</p>
+                            <button class="btn-add">Thêm vào giỏ</button>
+                        </div>
+                        <hr>
+                    `);
+                });
+            }
+
+            function renderCart() {
+                const total = cart.reduce(function (sum, item) {
+                    return sum + item.price;
+                }, 0);
+
+                $("#cart-count").text(cart.length);
+                $("#cart-total").text(total.toLocaleString("vi-VN") + "đ");
+            }
+
+            $("#book-list").on("click", ".btn-add", function () {
+                const bookId = Number($(this).closest(".book").data("id"));
+                const book = books.find(function (item) {
+                    return item.id === bookId;
+                });
+
+                cart.push(book);
+                renderCart();
+
+                $(this).text("Đã thêm ✓");
+
+                $(this)
+                    .animate({ opacity: 0.5 }, 150)
+                    .animate({ opacity: 1 }, 150);
+            });
+
+            $("#search-box").on("input", function () {
+                const keyword = $(this).val().toLowerCase();
+
+                $(".book").each(function () {
+                    const title = $(this).find("h3").text().toLowerCase();
+                    $(this).toggle(title.includes(keyword));
+                });
+            });
+
+            $("#checkout-form").on("submit", function (e) {
+                e.preventDefault();
+                $("#form-errors").empty();
+
+                let errors = [];
+
+                const fullname = $("input[name='fullname']").val().trim();
+                const email = $("input[name='email']").val().trim();
+                const phone = $("input[name='phone']").val().trim();
+
+                if (cart.length === 0) {
+                    errors.push("Vui lòng thêm sách vào giỏ hàng.");
+                }
+
+                if (fullname === "") {
+                    errors.push("Vui lòng nhập họ tên.");
+                }
+
+                if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    errors.push("Email không hợp lệ.");
+                }
+
+                if (!/^0\d{9}$/.test(phone)) {
+                    errors.push("Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0.");
+                }
+
+                if (errors.length > 0) {
+                    errors.forEach(function (err) {
+                        $("#form-errors").append(
+                            `<p style="color:red">• ${err}</p>`
+                        );
+                    });
+                    return;
+                }
+
+                alert("Đặt hàng thành công!");
+                console.log("Sách đã đặt:", cart);
+                console.log("Người đặt:", fullname, email, phone);
+
+                cart = [];
+                renderCart();
+                renderBookList();
+                this.reset();
+            });
+
+            renderBookList();
+            renderCart();
+        });
+    </script>
+</body>
+
+</html>
